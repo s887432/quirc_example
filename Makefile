@@ -14,13 +14,16 @@ LIB_OBJ = \
     lib/quirc.o \
     lib/version_db.o
 
-all: libquirc.so qrcam qrraw
+all: libquirc.so qrcam qrraw qrreader
 
 qrraw: tests/qrraw.o tests/data.o libquirc.a
 	$(CC) -o $@ tests/data.o tests/qrraw.o libquirc.a $(LDFLAGS) -lm
 
 qrcam: tests/qrcam.o tests/uartFunc.o libquirc.a
 	$(CC) -o $@ tests/qrcam.o tests/uartFunc.o libquirc.a $(LDFLAGS) -lm
+
+qrreader: tests/qrreader.o tests/uartFunc.o libquirc.a
+	$(CC) -o $@ tests/qrreader.o tests/uartFunc.o libquirc.a $(LDFLAGS) -lm
 
 libquirc.a: $(LIB_OBJ)
 	rm -f $@
@@ -47,3 +50,4 @@ clean:
 	rm -f libquirc.so.$(LIB_VERSION)
 	rm -f qrraw
 	rm -f qrcam
+	rm -rf qrreader
